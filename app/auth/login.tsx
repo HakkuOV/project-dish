@@ -1,8 +1,53 @@
+import { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import CustomModal from "@/components/modals";
+import commonStyles from "@/styles/common";
 
 export default function Login() {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Estados para el modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const handleDataChange = (propName: string, value: string) => {
+    // Actualizar el estado de newUser salterando solamente la propiedad indicada
+    setUser({
+      ...user,
+      [propName]: value,
+    });
+  };
+
+  const validateData = () => {
+    // Actualizar el estado de newUser con los valores sin espacios en blanco
+    setUser({
+      email: user.email.trim(),
+      password: user.password,
+    });
+
+    // Validar los datos
+    if (!user.email || !user.password) {
+      setModalMessage("Completa los campos");
+      setModalVisible(true);
+      return;
+    } else if (user.password.trim() !== user.password) {
+      setModalMessage(
+        "La contraseña no debe tener espacios al inicio o al final"
+      );
+      setModalVisible(true);
+      return;
+    }
+
+    // Lógica para enviar datos si la validación es exitosa
+    alert("Iniciando sesion");
+  };
+
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={commonStyles.screen}>
       <View style={styles.loginContainer}>
         <Text style={styles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>
@@ -10,29 +55,36 @@ export default function Login() {
           <Text style={styles.messageText}>Inicia sesion para continuar</Text>
         </View>
         <View style={styles.inputsContainer}>
-          <TextInput style={styles.textInput} placeholder="Correo" />
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
+            placeholder="Correo"
+            onChangeText={(text) => {
+              handleDataChange("email", text);
+            }}
+          />
+          <TextInput
+            style={commonStyles.textInput}
             placeholder="Contraseña"
             secureTextEntry
+            onChangeText={(text) => {
+              handleDataChange("password", text);
+            }}
           />
         </View>
         <Pressable style={styles.button}>
           <Text style={styles.textButton}>Iniciar Sesion</Text>
         </Pressable>
       </View>
-    </View>
+      <CustomModal
+        visible={modalVisible}
+        message={modalMessage}
+        onClose={() => setModalVisible(false)}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-
   loginContainer: {
     width: "80%",
     padding: 24,
@@ -66,14 +118,6 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     gap: 8,
-  },
-
-  textInput: {
-    padding: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#000000",
-    backgroundColor: "#ffffff",
   },
 
   button: {

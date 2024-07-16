@@ -1,30 +1,29 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
+import commonStyles from "@/styles/common";
 
-export default function MainScreen() {
+export default function Profile() {
   return (
-    <View style={styles.screen}>
-      <Link href="/auth/login" asChild>
+    <SafeAreaView style={[commonStyles.screen, styles.screen]}>
+      <Link href="../auth/login" asChild>
         <Pressable style={styles.button}>
           <Text style={{ color: "#000000", textAlign: "center" }}>Login</Text>
         </Pressable>
       </Link>
-      <Link href="/auth/register" asChild>
+      <Link href="../auth/register" asChild>
         <Pressable style={styles.button}>
           <Text style={{ color: "#000000", textAlign: "center" }}>
             Register
           </Text>
         </Pressable>
       </Link>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     gap: 16,
   },
 

@@ -1,7 +1,13 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CustomModal = ({ visible, message, onClose }) => {
+interface CustomModalProps {
+  visible: boolean,
+  message: string,
+  onClose: () => void,
+}
+
+const CustomModal = ({ visible, message, onClose }: CustomModalProps) => {
   return (
     <Modal
       transparent={true}

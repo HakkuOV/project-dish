@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, StyleSheet, View, TextInput, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import commonStyles from "@/styles/common";
 import CustomModal from "@/components/modals";
 
 export default function Rgister() {
@@ -56,11 +58,11 @@ export default function Rgister() {
     }
 
     // Lógica para enviar datos si la validación es exitosa
-    alert("Iniciando sesion");
+    alert("Registrando Usuario");
   };
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={commonStyles.screen}>
       <View style={styles.loginContainer}>
         <Text style={styles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>
@@ -71,7 +73,7 @@ export default function Rgister() {
         </View>
         <View style={styles.inputsContainer}>
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             placeholder="Nombre de usuario"
             value={newUser.username}
             onChangeText={(text) => {
@@ -79,7 +81,7 @@ export default function Rgister() {
             }}
           />
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             value={newUser.email}
             placeholder="Correo electronico"
             onChangeText={(text) => {
@@ -87,7 +89,7 @@ export default function Rgister() {
             }}
           />
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             placeholder="Contraseña"
             value={newUser.password}
             secureTextEntry
@@ -96,7 +98,7 @@ export default function Rgister() {
             }}
           />
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             placeholder="Confirmar contraseña"
             value={newUser.passwordConfirm}
             secureTextEntry
@@ -119,18 +121,11 @@ export default function Rgister() {
         message={modalMessage}
         onClose={() => setModalVisible(false)}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-
   loginContainer: {
     width: "80%",
     padding: 24,
@@ -164,14 +159,6 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     gap: 8,
-  },
-
-  textInput: {
-    padding: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#000000",
-    backgroundColor: "#ffffff",
   },
 
   button: {
