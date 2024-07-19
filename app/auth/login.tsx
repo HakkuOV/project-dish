@@ -47,7 +47,7 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView style={commonStyles.screen}>
+    <SafeAreaView style={[commonStyles.screen, commonStyles.centered]}>
       <View style={styles.loginContainer}>
         <Text style={styles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>

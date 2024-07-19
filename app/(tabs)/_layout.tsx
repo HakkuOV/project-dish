@@ -16,7 +16,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search"
         options={{
-            tabBarLabel: "Search"
+          tabBarLabel: "Search",
         }}
       />
       <Tabs.Screen

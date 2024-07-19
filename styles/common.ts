@@ -3,8 +3,11 @@ import { StyleSheet } from "react-native";
 const commonStyles = StyleSheet.create({
   screen: {
     flex: 1,
+  },
+
+  centered: {
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   textInput: {

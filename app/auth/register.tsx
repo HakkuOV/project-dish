@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import commonStyles from "@/styles/common";
 import CustomModal from "@/components/modals";
+import commonStyles from "@/styles/common";
 
 export default function Rgister() {
   const [newUser, setNewUser] = useState({
-    username: "" ,
+    username: "",
     email: "",
     password: "",
     passwordConfirm: "",
@@ -15,7 +15,7 @@ export default function Rgister() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  const handleDataChange = (propName:string, value:string) => {
+  const handleDataChange = (propName: string, value: string) => {
     // Actualizar el estado de newUser salterando solamente la propiedad indicada
     setNewUser({
       ...newUser,
@@ -62,7 +62,7 @@ export default function Rgister() {
   };
 
   return (
-    <SafeAreaView style={commonStyles.screen}>
+    <SafeAreaView style={[commonStyles.screen, commonStyles.centered]}>
       <View style={styles.loginContainer}>
         <Text style={styles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>
