@@ -5,66 +5,67 @@ import CustomModal from "@/components/modals";
 import commonStyles from "@/styles/common";
 
 export default function Rgister() {
-  const [newUser, setNewUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  });
+  // Datos del usuario
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
   // Estados para el modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  const handleDataChange = (propName: string, value: string) => {
-    // Actualizar el estado de newUser salterando solamente la propiedad indicada
-    setNewUser({
-      ...newUser,
-      [propName]: value,
-    });
-  };
+  const validateData = (): boolean => {
+    // Eliminamos los espacios al inicio y al final del nombre de usuario y del correo
+    setUsername(username.trim());
+    setEmail(email.trim());
 
-  const validateData = () => {
-    // Actualizar el estado de newUser con los valores sin espacios en blanco
-    setNewUser({
-      username: newUser.username.trim(),
-      email: newUser.email.trim(),
-      password: newUser.password,
-      passwordConfirm: newUser.passwordConfirm,
-    });
-
-    // Validar los datos
-    if (
-      !newUser.username ||
-      !newUser.email ||
-      !newUser.password ||
-      !newUser.passwordConfirm
-    ) {
+    // Validamos los datos
+    if (!username || !email || !password || !passwordConfirm) {
+      // Verificamos que se ingresaron todos los campos
       setModalMessage("Completa los campos");
       setModalVisible(true);
-      return;
+      return false;
     } else if (
-      newUser.password.trim() !== newUser.password ||
-      newUser.passwordConfirm.trim() !== newUser.passwordConfirm
+      password.trim() !== password ||
+      passwordConfirm.trim() !== passwordConfirm
     ) {
+      // Verificamos que la contraseña no contenga espacios al inicio o al final
       setModalMessage(
         "La contraseña no debe tener espacios al inicio o al final"
       );
       setModalVisible(true);
-      return;
-    } else if (newUser.password !== newUser.passwordConfirm) {
+      return false;
+    } else if (password !== passwordConfirm) {
+      // Verificamos que se escribio bien la contraseña
       setModalMessage("La contraseña no coincide");
       setModalVisible(true);
-      return;
+      return false;
     }
+    return true;
+  };
 
-    // Lógica para enviar datos si la validación es exitosa
-    alert("Registrando Usuario");
+  const registerUser = async () => {
+    if (validateData()) {
+      // Si la validacion de datos fue correcta, tratamos de agregar al usuario a la base de datos
+      try {
+        const url = `http://ornval.free.nf/db_add_user.php?username=${username}&email=${email}&password=${password}`;
+        const response = await fetch(url);
+        const status = await response.json();
+        console.log(status);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setModalMessage("No se pudo registrar el usuario");
+        setModalVisible(true);
+      }
+    }
   };
 
   return (
-    <SafeAreaView style={[commonStyles.screen, commonStyles.centered]}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.loginContainer}>
-        <Text style={styles.appName}>Project Dish</Text>
+        <Text style={commonStyles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Bienvenido !!!</Text>
           <Text style={styles.messageText}>
@@ -75,42 +76,42 @@ export default function Rgister() {
           <TextInput
             style={commonStyles.textInput}
             placeholder="Nombre de usuario"
-            value={newUser.username}
+            value={username}
             onChangeText={(text) => {
-              handleDataChange("username", text);
+              setUsername(text);
             }}
           />
           <TextInput
             style={commonStyles.textInput}
-            value={newUser.email}
+            value={email}
             placeholder="Correo electronico"
             onChangeText={(text) => {
-              handleDataChange("email", text);
+              setEmail(text);
             }}
           />
           <TextInput
             style={commonStyles.textInput}
             placeholder="Contraseña"
-            value={newUser.password}
+            value={password}
             secureTextEntry
             onChangeText={(text) => {
-              handleDataChange("password", text);
+              setPassword(text);
             }}
           />
           <TextInput
             style={commonStyles.textInput}
             placeholder="Confirmar contraseña"
-            value={newUser.passwordConfirm}
+            value={passwordConfirm}
             secureTextEntry
             onChangeText={(text) => {
-              handleDataChange("passwordConfirm", text);
+              setPasswordConfirm(text);
             }}
           />
         </View>
         <Pressable
           style={styles.button}
           onPress={() => {
-            validateData();
+            registerUser();
           }}
         >
           <Text style={styles.textButton}>Registrar</Text>
@@ -126,6 +127,12 @@ export default function Rgister() {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   loginContainer: {
     width: "80%",
     padding: 24,
@@ -134,11 +141,6 @@ const styles = StyleSheet.create({
     gap: 16,
     borderColor: "#000000",
     backgroundColor: "#ffffff",
-  },
-
-  appName: {
-    fontSize: 22,
-    fontWeight: "500",
   },
 
   welcomeContainer: {

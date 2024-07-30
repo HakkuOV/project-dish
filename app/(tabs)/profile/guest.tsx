@@ -5,14 +5,16 @@ import commonStyles from "@/styles/common";
 
 export default function Guest() {
   return (
-    <SafeAreaView style={[commonStyles.screen, styles.screen]}>
+    <SafeAreaView style={styles.screen}>
       <View style={[commonStyles.centered, styles.appContainer]}>
         <Image
           style={styles.appIcon}
           source={require("@/assets/images/app-icon.png")}
         />
-        <Text>Project Dish</Text>
+        <Text style={commonStyles.appName}>Project Dish</Text>
       </View>
+
+      <Text>Inicia Sesion o Registrate para comenzar</Text>
 
       <View style={styles.buttonContainer}>
         <Link href="../../auth/login" asChild>
@@ -34,11 +36,17 @@ export default function Guest() {
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
+    alignItems: "center",
     justifyContent: "space-around"
   },
 
   appContainer: {
-    backgroundColor: "white"
+    backgroundColor: "white",
+    borderWidth: 1,
+    padding: 16,
+    width: "60%",
+    borderRadius: 16
   },
 
   appIcon: {
@@ -50,7 +58,6 @@ const styles = StyleSheet.create({
     gap: 16,
     width: "100%",
     alignItems: "center",
-    backgroundColor: "white"
   },
 
   button: {

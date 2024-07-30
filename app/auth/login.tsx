@@ -5,51 +5,39 @@ import CustomModal from "@/components/modals";
 import commonStyles from "@/styles/common";
 
 export default function Login() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  // Datos del usuario
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // Estados para el modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  const handleDataChange = (propName: string, value: string) => {
-    // Actualizar el estado de newUser salterando solamente la propiedad indicada
-    setUser({
-      ...user,
-      [propName]: value,
-    });
-  };
+  const validateData = (): boolean => {
+    // Quitamos los espacios en blanco al principio y al final del email
+    setEmail(email.trim());
 
-  const validateData = () => {
-    // Actualizar el estado de newUser con los valores sin espacios en blanco
-    setUser({
-      email: user.email.trim(),
-      password: user.password,
-    });
-
-    // Validar los datos
-    if (!user.email || !user.password) {
+    // Validamos los datos
+    if (!email || !password) {
+      // Verificamos que se ingresaron todos los campos
       setModalMessage("Completa los campos");
       setModalVisible(true);
-      return;
-    } else if (user.password.trim() !== user.password) {
+      return false;
+    } else if (password.trim() !== password) {
+      // Verificamos que la contraseña no contenga espacios al inicio o al final
       setModalMessage(
         "La contraseña no debe tener espacios al inicio o al final"
       );
       setModalVisible(true);
-      return;
+      return false;
     }
-
-    // Lógica para enviar datos si la validación es exitosa
-    alert("Iniciando sesion");
+    return true;
   };
 
   return (
-    <SafeAreaView style={[commonStyles.screen, commonStyles.centered]}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.loginContainer}>
-        <Text style={styles.appName}>Project Dish</Text>
+        <Text style={commonStyles.appName}>Project Dish</Text>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Bienvenido !!!</Text>
           <Text style={styles.messageText}>Inicia sesion para continuar</Text>
@@ -59,7 +47,7 @@ export default function Login() {
             style={commonStyles.textInput}
             placeholder="Correo"
             onChangeText={(text) => {
-              handleDataChange("email", text);
+              setEmail(text);
             }}
           />
           <TextInput
@@ -67,7 +55,7 @@ export default function Login() {
             placeholder="Contraseña"
             secureTextEntry
             onChangeText={(text) => {
-              handleDataChange("password", text);
+              setPassword(text);
             }}
           />
         </View>
@@ -85,6 +73,12 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   loginContainer: {
     width: "80%",
     padding: 24,
@@ -93,11 +87,6 @@ const styles = StyleSheet.create({
     gap: 16,
     borderColor: "#000000",
     backgroundColor: "#ffffff",
-  },
-
-  appName: {
-    fontSize: 22,
-    fontWeight: "500",
   },
 
   welcomeContainer: {

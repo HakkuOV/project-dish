@@ -4,7 +4,7 @@ import commonStyles from "@/styles/common";
 
 export default function Search() {
   return (
-    <SafeAreaView style={[commonStyles.screen, commonStyles.centered]}>
+    <SafeAreaView style={styles.screen}>
       <TextInput
         style={[commonStyles.textInput, styles.searchInput]}
         placeholder="Receta"
@@ -14,6 +14,12 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   searchInput: {
     width: "80%",
   },
